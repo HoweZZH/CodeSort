@@ -58,6 +58,7 @@ with open(file_path, 'r') as f:
 # sort code block by first line of every code block(step)
 new_code = sorted(new_code, key=itemgetter(0))
 
+print(len(new_code))
 
 # write new_code into new file
 with open(new_file, 'w') as f:
