@@ -1,7 +1,7 @@
 from operator import itemgetter
 
 file_path = '/Users/zizhao/z_github/CodeSort/target_step.js'
-new_file = '/Users/zizhao/z_github/CodeSort/new.js'
+new_file = '/Users/zizhao/z_github/CodeSort/target_step_sorted.js'
 
 # put all step definition into new_code
 new_code = []
@@ -56,7 +56,14 @@ with open(file_path, 'r') as f:
 
 
 # sort code block by first line of every code block(step)
-new_code = sorted(new_code, key=itemgetter(0))
+def sort_step(x):
+    if x[0].startswith('When('):
+        return '.' + x[0]  # add '.' to make it in front
+    return x[0]
+
+
+# itemgetter(0)
+new_code = sorted(new_code, key=sort_step)
 
 print(len(new_code))
 
@@ -72,22 +79,3 @@ with open(new_file, 'w') as f:
         f.write('\n')
 
 
-
-
-    
-
-
-            
-
-                    
-                    
-                    
-
-                        
-                        
-                        
-
-                
-            
-            
-            

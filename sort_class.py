@@ -1,7 +1,7 @@
 from operator import itemgetter
 
 file_path = '/Users/zizhao/z_github/CodeSort/target_page.js'
-new_file = '/Users/zizhao/z_github/CodeSort/target_page_sorted.js'
+new_file = '/Users/zizhao/z_github/CodeSort/new_page.js'
 
 # process lines in [start_line, end_line]
 
@@ -9,30 +9,30 @@ new_file = '/Users/zizhao/z_github/CodeSort/target_page_sorted.js'
 new_code = []
 with open(file_path, 'r') as f:
     lines = f.readlines()
-    
+
     current_i = 0
     for i, line in enumerate(lines):
         if i < current_i:
             continue
 
         current_i = i
-        if line.strip().startswith('/**') or line.strip().startswith('get ') or line.strip().startswith('async '):
+        if line.strip().startswith('/**'):
 
             code_block = []
-            # put all lines of current code block into code_block 
+            # put all lines of current code block into code_block
             # get all parentheses from current code block
-            stack = [] 
-            while current_i < len(lines):   
+            stack = []
+            while current_i < len(lines):
                 current_line = lines[current_i]
 
                 # add the comment to code block
                 while current_line.strip().startswith('*') or current_line.strip().startswith('/*'):
                     code_block.append(current_line)
                     current_i += 1
-                    current_line = lines[current_i]  
-                
+                    current_line = lines[current_i]
+
                 for c in current_line.strip():
-                    if c == '{':   
+                    if c == '{':
                         stack.append(c)
                     elif c == '}':
                         if len(stack) == 0:
@@ -53,10 +53,12 @@ with open(file_path, 'r') as f:
 
             # done with current code_block, put it into new_code
             new_code.append(code_block)
-           
+
 print(len(new_code))
 
 call_me = [0]
+
+
 def first_code_line(x):
     call_me[0] += 1
     print('call me ' + str(call_me[0]))
@@ -64,9 +66,7 @@ def first_code_line(x):
         if len(line) == 0:
             pass
         elif '*' not in line:
-            if line.strip().startswith('get'):  # make the getter on top of the code
-                return '..' + line.strip()
-            return line.strip()
+            return line
 
 
 # sort code block by line containing funciton signiture
@@ -77,28 +77,5 @@ with open(new_file, 'w') as f:
     for code_block in new_code:
         for line in code_block:
             f.write(line)
-        
+
         f.write('\n')
-
-
-
-
-
-
-    
-
-
-            
-
-                    
-                    
-                    
-
-                        
-                        
-                        
-
-                
-            
-            
-            
